@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Campus Lost and Found</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <div class="logo-box">LF</div>
+        <div>
+            <h3>Campus Lost & Found</h3>
+            <p>Lost & Found Management System</p>
+        </div>
+    </div>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#s+earch">Search Items</a>
+        <a href="#report">Report Item</a>
+        <a href="#claims">My Claims</a>
+        <button id="loginButton" onclick="openLogin()">Login</button>
+    </nav>
+</header>
+
+<section id="home" class="home">
+    <div class="home-text">
+        <p class="small-title">CAMPUS SERVICE PORTAL</p>
+        <h1>Find what you lost.<br><span>Return what you found.</span></h1>
+        <p>
+            A simple platform for students and staff to report lost or found
+            belongings, search items and submit ownership claims.
+        </p>
+        <a class="button" href="#report">Report an Item</a>
+        <a class="button white-button" href="#search">Search Items</a>
+    </div>
+
+    <div class="home-box">
+        <h3>Campus Lost & Found</h3>
+        <hr>
+        <div class="numbers">
+            <div><b id="lostNumber">0</b><small>Lost Items</small></div>
+            <div><b id="foundNumber">0</b><small>Found Items</small></div>
+            <div><b id="claimNumber">0</b><small>Claims</small></div>
+        </div>
+        <p>Items and ownership claims are reviewed by the administrator.</p>
+    </div>
+</section>
+
+<section class="quick">
+    <p class="small-title">QUICK ACTIONS</p>
+    <h2>What would you like to do?</h2>
+
+    <div class="quick-cards">
+        <a href="#report">
+            <div class="icon">+</div>
+            <h3>Report Lost Item</h3>
+            <p>Tell us about something you have lost.</p>
+        </a>
+
+        <a href="#report">
+            <div class="icon">✓</div>
+            <h3>Report Found Item</h3>
+            <p>Help the owner by reporting an item you found.</p>
+        </a>
+
+        <a href="#search">
+            <div class="icon">⌕</div>
+            <h3>Search Items</h3>
+            <p>Search through current lost and found reports.</p>
+        </a>
+
+        <a href="#claims">
+            <div class="icon">□</div>
+            <h3>Check a Claim</h3>
+            <p>Check the status of your ownership claims.</p>
+        </a>
+    </div>
+</section>
+
+<section id="search" class="section gray">
+    <p class="small-title">ITEM DIRECTORY</p>
+    <h2>Search Reported Items</h2>
+    <p>Search using a keyword, type or category.</p>
+
+    <div class="search-box">
+        <div>
+            <label>Keyword</label>
+            <input id="searchText" placeholder="e.g. wallet, bag, ID card">
+        </div>
+
+        <div>
+            <label>Type</label>
+            <select id="searchType">
+                <option value="all">All Items</option>
+                <option value="lost">Lost Items</option>
+                <option value="found">Found Items</option>
+            </select>
+        </div>
+
+        <div>
+            <label>Category</label>
+            <select id="searchCategory">
+                <option value="all">All Categories</option>
+                <option>Electronics</option>
+                <option>Documents</option>
+                <option>Accessories</option>
+                <option>Bags</option>
+                <option>Keys</option>
+                <option>Books</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <button class="button" onclick="searchItems()">Search</button>
+    </div>
+
+    <div class="result-line">
+        <span id="resultNumber">0 items</span>
+        <button class="clear-button" onclick="clearSearch()">Clear Filters</button>
+    </div>
+
+    <div id="items" class="items"></div>
+</section>
+
+<section id="report" class="section">
+    <p class="small-title">SUBMIT A REPORT</p>
+    <h2>Report a Lost or Found Item</h2>
+    <p>Add the details of the item you want to report.</p>
+
+    <div class="tabs">
+        <button id="lostTab" class="active-tab" onclick="selectReportType('lost')">I Lost Something</button>
+        <button id="foundTab" onclick="selectReportType('found')">I Found Something</button>
+    </div>
+
+    <form id="reportForm" class="form">
+        <input type="hidden" id="reportType" value="lost">
+
+        <div class="form-row">
+            <div>
+                <label>Item Name *</label>
+                <input id="itemName" required placeholder="e.g. Black Backpack">
+            </div>
+
+            <div>
+                <label>Category *</label>
+                <select id="itemCategory" required>
+                    <option value="">Select Category</option>
+                    <option>Electronics</option>
+                    <option>Documents</option>
+                    <option>Accessories</option>
+                    <option>Bags</option>
+                    <option>Keys</option>
+                    <option>Books</option>
+                    <option>Other</option>
+                </select>
+            </div>
+        </div>
+
+        <label>Description *</label>
+        <textarea id="description" required placeholder="Describe the item, colour, brand, identifying marks, etc."></textarea>
+
+        <div class="form-row">
+            <div>
+                <label id="locationLabel">Location Lost *</label>
+                <input id="location" required placeholder="e.g. Library, Block A">
+            </div>
+
+            <div>
+                <label id="dateLabel">Date Lost *</label>
+                <input id="itemDate" type="date" required>
+            </div>
+        </div>
+
+        <label>Image File Name</label>
+        <input id="image" placeholder="Optional: backpack.jpg">
+
+        <button class="button" type="submit">Submit Report</button>
+    </form>
+</section>
+
+<section id="claims" class="section gray">
+    <p class="small-title">OWNERSHIP CLAIMS</p>
+    <h2>My Claims</h2>
+    <p>Login to view the claims submitted by you.</p>
+    <div id="claimsList" class="claims-list"></div>
+</section>
+
+<section class="process">
+    <p class="small-title">HOW IT WORKS</p>
+    <h2>Simple from Report to Return</h2>
+
+    <div class="steps">
+        <div><b>01</b><h3>Register / Login</h3><p>Create your campus account.</p></div>
+        <div><b>02</b><h3>Report an Item</h3><p>Add the item details.</p></div>
+        <div><b>03</b><h3>Search & Claim</h3><p>Find an item and submit your proof.</p></div>
+        <div><b>04</b><h3>Admin Review</h3><p>Administrator approves or rejects the claim.</p></div>
+    </div>
+</section>
+
+<footer>
+    <div>
+        <h3>Campus Lost & Found</h3>
+        <p>A campus-based Lost and Found Management System.</p>
+    </div>
+    <div>
+        <h4>Useful Links</h4>
+        <a href="#search">Search Items</a>
+        <a href="#report">Report Item</a>
+        <a href="#claims">My Claims</a>
+    </div>
+    <div>
+        <h4>Administration</h4>
+        <button class="footer-button" onclick="openAdmin()">Administrator Login</button>
+        <p>For authorized administrators only.</p>
+    </div>
+</footer>
+
+<!-- Login/Register -->
+<div id="loginModal" class="modal">
+    <div class="modal-box">
+        <button class="close" onclick="closeModal('loginModal')">×</button>
+
+        <div class="modal-tabs">
+            <button id="loginTab" class="active-modal-tab" onclick="showLogin()">Login</button>
+            <button id="registerTab" onclick="showRegister()">Register</button>
+        </div>
+
+        <form id="loginForm">
+            <h2>Login</h2>
+            <p>Login to submit claims and manage your reports.</p>
+            <label>Email</label>
+            <input id="loginEmail" type="email" required>
+            <label>Password</label>
+            <input id="loginPassword" type="password" required>
+            <button class="button full" type="submit">Login</button>
+        </form>
+
+        <form id="registerForm" class="hidden">
+            <h2>Create Account</h2>
+            <p>Enter your campus information.</p>
+            <label>Registration No. *</label>
+            <input id="regNo" required>
+            <label>Name *</label>
+            <input id="regName" required>
+            <label>Email *</label>
+            <input id="regEmail" type="email" required>
+            <label>Phone</label>
+            <input id="regPhone">
+            <label>Password *</label>
+            <input id="regPassword" type="password" required>
+            <button class="button full" type="submit">Register</button>
+        </form>
+    </div>
+</div>
+
+<!-- Claim -->
+<div id="claimModal" class="modal">
+    <div class="modal-box">
+        <button class="close" onclick="closeModal('claimModal')">×</button>
+        <h2>Ownership Claim</h2>
+        <p id="claimItem"></p>
+
+        <form id="claimForm">
+            <label>Proof / Ownership Details *</label>
+            <textarea id="claimProof" required placeholder="Describe a detail that proves the item belongs to you."></textarea>
+            <input type="hidden" id="claimId">
+            <button class="button full" type="submit">Submit Claim</button>
+        </form>
+    </div>
+</div>
+
+<!-- Admin -->
+<div id="adminModal" class="modal">
+    <div class="admin-box">
+        <button class="close" onclick="closeModal('adminModal')">×</button>
+
+        <div id="adminLogin">
+            <h2>Administrator Login</h2>
+            <p>Demo: admin@campus.local / admin123</p>
+            <form id="adminForm">
+                <label>Email</label>
+                <input id="adminEmail" type="email" required>
+                <label>Password</label>
+                <input id="adminPassword" type="password" required>
+                <button class="button full">Login</button>
+            </form>
+        </div>
+
+        <div id="adminDashboard" class="hidden">
+            <h2>Administrator Dashboard</h2>
+
+            <div id="adminStats" class="admin-stats"></div>
+
+            <h3>Pending Ownership Claims</h3>
+            <div id="pendingClaims"></div>
+
+            <h3>Recent Reports</h3>
+            <div id="adminReports"></div>
+
+            <button class="clear-button" onclick="resetData()">Reset Demo Data</button>
+        </div>
+    </div>
+</div>
+
+<div id="message" class="message"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
